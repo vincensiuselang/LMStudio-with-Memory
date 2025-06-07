@@ -1,0 +1,7 @@
+langchain_core>=0.1.0
+pydantic>=2.0.0
+requests>=2.0.0
+SpeechRecognition>=3.0.0
+gTTS>=2.0.0
+pygame>=2.0.0
+pytest>=7.0.0
