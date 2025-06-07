@@ -11,15 +11,15 @@ import time
 
 llm = LMStudioLLM()
 
-print(f"🤖 Selamat datang di AI Ingatan 🤖\n")
+print(f"🤖 Welcome to AI Memory 🤖\n")
 
 # Minta input nama user sekali di awal program
-user_name = input("Halo! Siapa namamu : ").strip()
+user_name = input("Halo! What is your name : ").strip()
 if not user_name:
-    user_name = "Teman"  # fallback
+    user_name = "Brother"  # fallback
 
 # Set context awal dan kosongkan history
-context = f"Namamu {user_name} dan aku Vintec.\n"
+context = f"Your name is {user_name} and I'm Vintec.\n"
 history = []
 
 # Simpan ke file di awal
@@ -32,17 +32,17 @@ if not os.path.exists("suara"):
 def get_voice_input():
     recognizer = sr.Recognizer()
     with sr.Microphone() as source:
-        print("🎤 Ngomong sekarang (tunggu AI jawab)...")
+        print("🎤 By the way now (wait for AI to answer)...")
         audio = recognizer.listen(source)
     try:
         text = recognizer.recognize_google(audio, language="id-ID")
-        print(f"kamu (via suara): {text}")
+        print(f"You (via voice): {text}")
         return text
     except sr.UnknownValueError:
-        print("❌ Suara tidak dikenali.")
+        print("❌ Voice not recognized.")
         return ""
     except sr.RequestError as e:
-        print(f"❌ Gagal menghubungi API Google: {e}")
+        print(f"❌ Failed to contact Google API: {e}")
         return ""
 
 def speak(text):
@@ -68,20 +68,20 @@ def speak(text):
         except PermissionError:
             time.sleep(0.5)
     else:
-        print(f"Warning: gagal hapus file {filepath}")
+        print(f"Warning: failed to delete file {filepath}")
 
-input_mode = input("Mau input via (1) Teks atau (2) Suara? [1/2]: ")
-output_mode = input("Mau output AI dalam bentuk (1) Teks atau (2) Suara? [1/2]: ")
+input_mode = input("Do you want to input via (1) Text or (2) Voice? [1/2]: ")
+output_mode = input("Do you want AI output in the form of (1) Text or (2) Voice? [1/2]: ")
 
 while True:
     if input_mode == "2":
         user_input = get_voice_input()
     else:
-        user_input = input("kamu: ")
+        user_input = input("You: ")
 
     # Khusus buat jawab pertanyaan "nama aku siapa?"
-    if user_input.lower() in ["nama aku siapa", "siapa nama aku"]:
-        response = f"Nama kamu adalah {user_name}."
+    if user_input.lower() in ["what is my name", "what's my name"]:
+        response = f"Your name is {user_name}."
         print(f"AI: {response}")
         if output_mode == "2":
             speak(response)
@@ -117,15 +117,15 @@ while True:
     save_memory(context, history)
 
     if user_input.lower() in ["exit", "selesai"]:
-        print("Percakapan Selesai.")
-        delete_all = input("Mau hapus semua file audio sementara? [y/n]: ").lower()
+        print("Conversation Completed.")
+        delete_all = input("Want to delete all temporary audio files? [y/n]: ").lower()
         if delete_all == 'y':
             for file in os.listdir("suara"):
                 if file.endswith(".mp3"):
                     try:
                         os.remove(os.path.join("suara", file))
                     except Exception as e:
-                        print(f"❌ Gagal hapus {file}: {e}")
+                        print(f"❌ Delete failure {file}: {e}")
         break
 
-print("Terima kasih telah menggunakan program ini!")
+print("Thank you for using this program!")

@@ -3,7 +3,7 @@ from memory_manager import load_memory, save_memory
 
 def test_save_and_load_memory(tmp_path):
     test_file = tmp_path / "test.json"
-    context = "Namamu Vintec.\n"
+    context = "Your name is Vintec.\n"
     history = [{"user": "halo", "Vintec": "hai"}]
 
     save_memory(context, history, filename=str(test_file))

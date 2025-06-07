@@ -9,13 +9,13 @@ def load_memory(filename="chat_history.json") -> Tuple[str, list]:
     try:
         with open(filename, "r") as file:
             data = json.load(file)
-            context = data.get("context", "Namamu user dan aku Vintec.\n")  # ganti di sini
+            context = data.get("context", "Your name is user and I'm Vintec.\n")  # ganti di sini
             history = data.get("history", [])
             if len(history) > MAX_HISTORY:
                 history = history[-MAX_HISTORY:]
             return context, history
     except FileNotFoundError:
-        return "Namamu user dan aku Vintec.\n", []
+        return "Your name is user and I'm Vintec.\n", []
 
 def save_memory(context: str, history: list, filename="chat_history.json"):
     # Batasi panjang history sebelum simpan
